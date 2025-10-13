@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "lint": "npx biome check",
+    "lint:fix": "npx biome check --write",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.5",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7"
+  }
+}
