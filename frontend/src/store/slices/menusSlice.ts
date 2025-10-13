@@ -11,9 +11,9 @@ interface MenuState {
 const initialState: MenuState = {
   items: [
     { name: "Home", icon: "Home", route: "/" },
-    { name: "Artistas", icon: "Album", route: "/artistas" },
+    { name: "Artistas", icon: "Album", route: "/artists" },
     { name: "Playlists", icon: "PlayCircle", route: "/playlists" },
-    { name: "Perfil", icon: "Person", route: "/perfil" },
+    { name: "Perfil", icon: "Person", route: "/profile" },
   ],
   activeItem: "Home",
 };
