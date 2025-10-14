@@ -1,10 +1,10 @@
+import { Album, Download, Home, Person, PlayCircle } from "@mui/icons-material";
 import { Box, Button, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import type React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import type { RootState } from "../store";
 import { selectActiveItem, selectMenuItems, setActiveItem } from "../store/slices/menusSlice";
-import { Home, Album, PlayCircle, Person, Download } from "@mui/icons-material";
 import type { MenuItem, MenuItemIcon } from "../types/menu.types";
 
 export const iconMap: Record<MenuItemIcon, React.ElementType> = {
