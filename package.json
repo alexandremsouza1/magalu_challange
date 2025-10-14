@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "lint": "npx biome check",
-    "lint:fix": "npx biome check --write",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
     "prepare": "husky"
   },
   "devDependencies": {
