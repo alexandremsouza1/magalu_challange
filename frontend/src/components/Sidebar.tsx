@@ -53,7 +53,7 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 
 	const handleClick = (name: string) => {
 		dispatch(setActiveItem(name));
-		if (isMobile) setMobileOpen(false); // fecha menu ao clicar em mobile
+		if (isMobile) setMobileOpen(false);
 	};
 
 	const drawerContent = (
