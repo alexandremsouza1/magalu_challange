@@ -70,13 +70,7 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 			}}
 		>
 			<Box>
-				{!isMobile && (
-					<img
-						src={logo}
-						alt="Logo"
-						style={{ width: "100%", marginBottom: "16px" }}
-					/>
-				)}
+				{!isMobile && <img src={logo} alt="Logo" style={{ width: "100%" }} />}
 				<List>
 					{items.map((item: MenuItem) => {
 						const Icon = iconMap[item.icon];
