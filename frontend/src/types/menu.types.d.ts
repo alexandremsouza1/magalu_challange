@@ -1,5 +1,7 @@
-export interface MenuItem {
+export type MenuItemIcon = "Home" | "Album" | "PlayCircle" | "Person";
+
+export type MenuItem = {
   name: string;
-  icon: string;
+  icon: MenuItemIcon;
   route: string;
-}
+};

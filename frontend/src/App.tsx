@@ -1,16 +1,16 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Index from "./pages/Index";
-import Artists from "./pages/Artists";
-import Profile from "./pages/Profile";
-import Playlists from "./pages/Playlists";
-import NotFound from "./pages/NotFound";
-import theme from "./theme";
-import { store } from "./store";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutMain from "./layouts/LayoutMain";
+import Artists from "./pages/Artists";
 import Home from "./pages/Home";
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+import Playlists from "./pages/Playlists";
+import Profile from "./pages/Profile";
+import { store } from "./store";
+import theme from "./theme";
 
 const App = () => {
 	return (

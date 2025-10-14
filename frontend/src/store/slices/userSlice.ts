@@ -1,14 +1,11 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-
-type UserState = {
-	name: string;
-	email: string;
-};
+import type { UserState } from "../../types/user.types";
 
 const initialState: UserState = {
 	name: "",
 	email: "",
+	avatarUrl: "",
 };
 
 const userSlice = createSlice({
@@ -18,6 +15,7 @@ const userSlice = createSlice({
 		setUser(state, action: PayloadAction<UserState>) {
 			state.name = action.payload.name;
 			state.email = action.payload.email;
+			state.avatarUrl = action.payload.avatarUrl;
 		},
 		clearUser() {
 			return initialState;

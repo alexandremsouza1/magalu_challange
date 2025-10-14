@@ -1,7 +1,7 @@
-// src/features/menu/menuSlice.ts
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import type { MenuItem } from "../../types/menu.types";
+import { setUser } from "./userSlice";
 
 interface MenuState {
   items: MenuItem[];
@@ -9,13 +9,13 @@ interface MenuState {
 }
 
 const initialState: MenuState = {
-  items: [
-    { name: "Home", icon: "Home", route: "/" },
-    { name: "Artistas", icon: "Album", route: "/artists" },
-    { name: "Playlists", icon: "PlayCircle", route: "/playlists" },
-    { name: "Perfil", icon: "Person", route: "/profile" },
-  ],
-  activeItem: "Home",
+	items: [
+		{ name: "Home", icon: "Home", route: "/" },
+		{ name: "Artistas", icon: "Album", route: "/artists" },
+		{ name: "Playlists", icon: "PlayCircle", route: "/playlists" },
+		{ name: "Perfil", icon: "Person", route: "/profile" },
+	],
+	activeItem: "Home",
 };
 
 const menuSlice = createSlice({
@@ -31,6 +31,11 @@ const menuSlice = createSlice({
     removeMenuItem(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.name !== action.payload);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(setUser, (state) => {
+      state.activeItem = "Home";
+    });
   },
 });
 

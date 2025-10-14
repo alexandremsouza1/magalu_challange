@@ -1,12 +1,20 @@
-// src/components/Sidebar.tsx
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectMenuItems, selectActiveItem, setActiveItem } from "../store/slices/menusSlice";
-import { Box, List, ListItemButton, ListItemIcon, ListItemText, Typography, Button } from "@mui/material";
-import * as Icons from "@mui/icons-material";
+import { Box, Button, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import type React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import type { RootState } from "../store";
-import type { MenuItem } from "../types/menu.types";
+import { selectActiveItem, selectMenuItems, setActiveItem } from "../store/slices/menusSlice";
+import { Home, Album, PlayCircle, Person, Download } from "@mui/icons-material";
+import type { MenuItem, MenuItemIcon } from "../types/menu.types";
+
+export const iconMap: Record<MenuItemIcon, React.ElementType> = {
+  Home,
+  Album,
+  PlayCircle,
+  Person,
+};
+
+
 
 const Sidebar: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,7 +45,7 @@ const Sidebar: React.FC = () => {
 
         <List>
           {items.map((item: MenuItem) => {
-            const Icon = (Icons as any)[item.icon];
+            const Icon = iconMap[item.icon];
             const isActive = activeItem === item.name;
             return (
               <ListItemButton
@@ -69,7 +77,7 @@ const Sidebar: React.FC = () => {
           textTransform: "none",
         }}
       >
-        <Icons.Download sx={{ mr: 1 }} />
+        <Download sx={{ mr: 1 }} />
         Instalar PWA
       </Button>
     </Box>
