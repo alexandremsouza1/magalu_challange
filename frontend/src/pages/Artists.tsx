@@ -1,4 +1,3 @@
-// src/pages/Artists.tsx
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import ArtistCard from "../components/ArtistCard";
