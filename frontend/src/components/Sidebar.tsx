@@ -1,8 +1,9 @@
 import { Album, Download, Home, Person, PlayCircle } from "@mui/icons-material";
-import { Box, Button, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Box, Button, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import type React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 import type { RootState } from "../store";
 import { selectActiveItem, selectMenuItems, setActiveItem } from "../store/slices/menusSlice";
 import type { MenuItem, MenuItemIcon } from "../types/menu.types";
@@ -39,9 +40,7 @@ const Sidebar: React.FC = () => {
       }}
     >
       <Box>
-        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 3 }}>
-          Spotify
-        </Typography>
+        <img src={logo} alt="Logo" style={{ width: "100%", marginBottom: "16px" }} />
 
         <List>
           {items.map((item: MenuItem) => {
