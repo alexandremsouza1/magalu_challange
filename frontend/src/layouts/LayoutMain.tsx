@@ -1,11 +1,14 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 const LayoutMain = () => {
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
 	return (
-		<Box display="flex">
-			<Sidebar />
+		<Box display="flex" height="100vh">
+			<Sidebar isMobile={isMobile} />
 			<Box flexGrow={1} p={2}>
 				<Outlet />
 			</Box>

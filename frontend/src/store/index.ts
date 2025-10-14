@@ -6,7 +6,7 @@ import userReducer from "./slices/userSlice";
 
 const rootReducer = combineReducers({
 	user: userReducer,
-	menu: menuReducer
+	menu: menuReducer,
 });
 
 const persistConfig = {
