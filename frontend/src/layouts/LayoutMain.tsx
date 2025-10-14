@@ -9,7 +9,15 @@ const LayoutMain = () => {
 	return (
 		<Box display="flex" height="100vh">
 			<Sidebar isMobile={isMobile} />
-			<Box flexGrow={1} p={2}>
+			<Box
+				flexGrow={1}
+				p={2}
+				sx={{
+					pt: isMobile ? "64px" : 2,
+					bgcolor: "#111",
+					color: "white",
+				}}
+			>
 				<Outlet />
 			</Box>
 		</Box>

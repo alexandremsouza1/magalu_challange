@@ -70,12 +70,13 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 			}}
 		>
 			<Box>
-				<img
-					src={logo}
-					alt="Logo"
-					style={{ width: "100%", marginBottom: "16px" }}
-				/>
-
+				{!isMobile && (
+					<img
+						src={logo}
+						alt="Logo"
+						style={{ width: "100%", marginBottom: "16px" }}
+					/>
+				)}
 				<List>
 					{items.map((item: MenuItem) => {
 						const Icon = iconMap[item.icon];
@@ -119,13 +120,12 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 	if (isMobile) {
 		return (
 			<>
-				{/* Botão de menu fixo no topo */}
 				<Toolbar
 					sx={{
 						position: "fixed",
 						top: 0,
 						left: 0,
-						zIndex: 1201, // acima do conteúdo
+						zIndex: 1201,
 						bgcolor: "#000",
 						width: "100%",
 					}}
@@ -138,20 +138,24 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 					</Box>
 				</Toolbar>
 
-				{/* Drawer lateral */}
 				<Drawer
 					anchor="left"
 					open={mobileOpen}
 					onClose={handleDrawerToggle}
-					ModalProps={{ keepMounted: true }} // melhora performance em mobile
+					ModalProps={{ keepMounted: true }}
+					slotProps={{
+						paper: {
+							sx: { bgcolor: "#000", color: "white", width: drawerWidth },
+						},
+					}}
 				>
+					<Toolbar />
 					{drawerContent}
 				</Drawer>
 			</>
 		);
 	}
 
-	// Desktop
 	return (
 		<Box
 			sx={{
