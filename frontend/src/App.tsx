@@ -1,4 +1,3 @@
-// src/App.tsx
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -11,6 +10,7 @@ import theme from "./theme";
 import { store } from "./store";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutMain from "./layouts/LayoutMain";
+import Home from "./pages/Home";
 
 const App = () => {
 	return (
@@ -19,19 +19,20 @@ const App = () => {
 				<CssBaseline />
 				<BrowserRouter>
 					<Routes>
+						{/* Rota pública */}
 						<Route path="/login" element={<Index />} />
 
-        	<Route element={(
-            <ProtectedRoute>
-              <LayoutMain />
-            </ProtectedRoute>
-          )}>
-            <Route path="/" element={<Index />} />
-            <Route path="/artists" element={<Artists />} />
-            <Route path="/playlists" element={<Playlists />} />
-            <Route path="/profile" element={<Profile />} />
-          </Route>
+						{/* Rotas protegidas */}
+						<Route element={<ProtectedRoute />}>
+							<Route element={<LayoutMain />}>
+								<Route path="/" element={<Home />} />
+								<Route path="/artists" element={<Artists />} />
+								<Route path="/playlists" element={<Playlists />} />
+								<Route path="/profile" element={<Profile />} />
+							</Route>
+						</Route>
 
+						{/* 404 */}
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</BrowserRouter>

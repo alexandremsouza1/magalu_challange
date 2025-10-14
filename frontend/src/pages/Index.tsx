@@ -1,9 +1,18 @@
 import { Box, Button, Typography } from "@mui/material";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/slices/userSlice";
 
 const Index = () => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const handleLogin = () => {
-		console.log("Entrando com Spotify...");
+		const name = "Usuário Exemplo";
+		const email = "usuario@example.com";
+		dispatch(setUser({ name, email }));
+		navigate("/home");
 	};
 
 	return (
