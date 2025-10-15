@@ -18,11 +18,10 @@ import {
 	Toolbar,
 } from "@mui/material";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
-import type { RootState } from "../store";
 import {
 	selectActiveItem,
 	selectMenuItems,
@@ -45,9 +44,14 @@ const drawerWidth = 240;
 
 const Sidebar = ({ isMobile }: SidebarProps) => {
 	const dispatch = useDispatch();
-	const items = useSelector((state: {menu: MenuState}) => selectMenuItems(state));
-	const activeItem = useSelector((state: {menu: MenuState}) => selectActiveItem(state));
+	const items = useSelector((state: { menu: MenuState }) =>
+		selectMenuItems(state),
+	);
+	const activeItem = useSelector((state: { menu: MenuState }) =>
+		selectActiveItem(state),
+	);
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const location = useLocation();
 
 	const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -110,6 +114,13 @@ const Sidebar = ({ isMobile }: SidebarProps) => {
 			</Button>
 		</Box>
 	);
+
+	useEffect(() => {
+		const currentItem = items.find((item) => item.route === location.pathname);
+		if (currentItem) {
+			dispatch(setActiveItem(currentItem.name));
+		}
+	}, [location.pathname, items, dispatch]);
 
 	if (isMobile) {
 		return (

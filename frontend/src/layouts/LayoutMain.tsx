@@ -7,7 +7,7 @@ const LayoutMain = () => {
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
-		<Box display="flex" height="100vh">
+		<Box display="flex" height="100vh" overflow="hidden">
 			<Sidebar isMobile={isMobile} />
 			<Box
 				flexGrow={1}
