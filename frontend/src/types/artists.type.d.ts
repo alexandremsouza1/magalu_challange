@@ -1,5 +1,5 @@
 export type GetArtists = {
-  range: string;
-  limit: number;
-  offset: number;
-}
+	range: string;
+	limit: number;
+	offset: number;
+};

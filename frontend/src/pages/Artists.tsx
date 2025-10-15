@@ -1,17 +1,19 @@
 import { Box, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ArtistCard from "../components/ArtistCard";
 import type { AppDispatch, RootState } from "../store";
 import { getArtists } from "../store/slices/artistsSlice";
-import { useEffect } from "react";
 
 const Artists = () => {
 	const dispatch = useDispatch<AppDispatch>();
-  const { list, loading, error } = useSelector((state: RootState) => state.artists);
+	const { list, loading, error } = useSelector(
+		(state: RootState) => state.artists,
+	);
 
-  useEffect(() => {
-    dispatch(getArtists({ range: "short_term", limit: 10, offset: 0 }));
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(getArtists({ range: "short_term", limit: 10, offset: 0 }));
+	}, [dispatch]);
 
 	if (loading) {
 		return <Typography>Carregando...</Typography>;

@@ -28,7 +28,7 @@ import {
 	selectMenuItems,
 	setActiveItem,
 } from "../store/slices/menusSlice";
-import type { MenuItem, MenuItemIcon } from "../types/menu.types";
+import type { MenuItem, MenuItemIcon, MenuState } from "../types/menu.types";
 
 export const iconMap: Record<MenuItemIcon, React.ElementType> = {
 	Home,
@@ -45,8 +45,8 @@ const drawerWidth = 240;
 
 const Sidebar = ({ isMobile }: SidebarProps) => {
 	const dispatch = useDispatch();
-	const items = useSelector((state: RootState) => selectMenuItems(state));
-	const activeItem = useSelector((state: RootState) => selectActiveItem(state));
+	const items = useSelector((state: {menu: MenuState}) => selectMenuItems(state));
+	const activeItem = useSelector((state: {menu: MenuState}) => selectActiveItem(state));
 	const [mobileOpen, setMobileOpen] = useState(false);
 
 	const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
