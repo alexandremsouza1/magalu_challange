@@ -1,5 +1,8 @@
 import type { GetArtists } from "../../types/artists.type";
-import type { SpotifyTopArtistsResponse } from "../../types/spotify.types";
+import type {
+	SpotifyArtistAlbumsResponse,
+	SpotifyTopArtistsResponse,
+} from "../../types/spotify.types";
 import { api } from "../client";
 
 export const artistsService = {
@@ -12,6 +15,11 @@ export const artistsService = {
 				"&offset=" +
 				data.offset,
 		);
+		return response.data;
+	},
+
+	getAlbumsArtist: async (id: string): Promise<SpotifyArtistAlbumsResponse> => {
+		const response = await api.get(`/v1/artists/${id}/albums`);
 		return response.data;
 	},
 };
