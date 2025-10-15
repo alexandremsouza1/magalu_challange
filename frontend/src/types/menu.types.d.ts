@@ -6,8 +6,7 @@ export type MenuItem = {
 	route: string;
 };
 
-
 export type MenuState = {
 	items: MenuItem[];
 	activeItem: string;
-}
+};

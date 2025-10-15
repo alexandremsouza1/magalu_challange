@@ -21,10 +21,6 @@ export interface SpotifyArtist {
 	uri: string;
 }
 
-export interface SpotifyExternalUrls {
-	spotify: string;
-}
-
 export interface SpotifyFollowers {
 	href: string | null;
 	total: number;
@@ -37,42 +33,78 @@ export interface SpotifyImage {
 }
 
 export type SpotifyExternalUrls = {
-    spotify: string;
-};
-
-export type SpotifyImage = {
-    height: number | null;
-    url: string;
-    width: number | null;
+	spotify: string;
 };
 
 export type SpotifyUser = {
-    display_name: string;
-    external_urls: SpotifyExternalUrls;
-    href: string;
-    id: string;
-    type: "user";
-    uri: string;
+	display_name: string;
+	external_urls: SpotifyExternalUrls;
+	href: string;
+	id: string;
+	type: "user";
+	uri: string;
 };
 
 export type SpotifyPlaylistTracks = {
-    href: string;
-    total: number;
+	href: string;
+	total: number;
 };
 
 export type SpotifyPlaylist = {
-    collaborative: boolean;
-    description: string;
-    external_urls: SpotifyExternalUrls;
-    href: string;
-    id: string;
-    images: SpotifyImage[];
-    name: string;
-    owner: SpotifyUser;
-    primary_color: string | null;
-    public: boolean;
-    snapshot_id: string;
-    tracks: SpotifyPlaylistTracks;
-    type: "playlist";
-    uri: string;
+	collaborative: boolean;
+	description: string;
+	external_urls: SpotifyExternalUrls;
+	href: string;
+	id: string;
+	images: SpotifyImage[];
+	name: string;
+	owner: SpotifyUser;
+	primary_color: string | null;
+	public: boolean;
+	snapshot_id: string;
+	tracks: SpotifyPlaylistTracks;
+	type: "playlist";
+	uri: string;
 };
+
+export interface SpotifyArtistAlbumsResponse {
+	href: string;
+	limit: number;
+	next: string | null;
+	offset: number;
+	previous: string | null;
+	total: number;
+	items: SpotifyAlbum[];
+}
+
+export interface SpotifyAlbum {
+	album_type: string;
+	total_tracks: number;
+	available_markets: string[];
+	external_urls: SpotifyExternalUrls;
+	href: string;
+	id: string;
+	images: SpotifyImage[];
+	name: string;
+	release_date: string;
+	release_date_precision: "year" | "month" | "day";
+	type: "album";
+	uri: string;
+	artists: SpotifyArtistSummary[];
+	album_group: string;
+}
+
+export interface SpotifyImage {
+	url: string;
+	height: number;
+	width: number;
+}
+
+export interface SpotifyArtistSummary {
+	external_urls: SpotifyExternalUrls;
+	href: string;
+	id: string;
+	name: string;
+	type: "artist";
+	uri: string;
+}

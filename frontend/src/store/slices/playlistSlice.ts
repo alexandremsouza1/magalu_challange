@@ -42,13 +42,15 @@ export const getPlaylists = createAsyncThunk<
 	try {
 		const response = await playlistService.getPlaylists();
 
-		const playlists: Playlist[] = response.items.map((playlist: SpotifyPlaylist) => ({
-			id: playlist.id,
-			name: playlist.name,
-			image: playlist.images?.[0]?.url || "",
-			owner: playlist.owner?.display_name ?? "Desconhecido",
-			tracksCount: playlist.tracks?.total ?? 0,
-		}));
+		const playlists: Playlist[] = response.items.map(
+			(playlist: SpotifyPlaylist) => ({
+				id: playlist.id,
+				name: playlist.name,
+				image: playlist.images?.[0]?.url || "",
+				owner: playlist.owner?.display_name ?? "Desconhecido",
+				tracksCount: playlist.tracks?.total ?? 0,
+			}),
+		);
 
 		return playlists;
 	} catch (error) {
