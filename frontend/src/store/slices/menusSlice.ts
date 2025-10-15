@@ -1,12 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import type { MenuItem } from "../../types/menu.types";
+import type { MenuItem, MenuState } from "../../types/menu.types";
 import { setUser } from "./userSlice";
-
-interface MenuState {
-	items: MenuItem[];
-	activeItem: string;
-}
 
 const initialState: MenuState = {
 	items: [

@@ -4,11 +4,13 @@ import storage from "redux-persist/lib/storage";
 import artistsReducer from "./slices/artistsSlice";
 import menuReducer from "./slices/menusSlice";
 import userReducer from "./slices/userSlice";
+import playlistsReducer from "./slices/playlistSlice";
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	menu: menuReducer,
 	artists: artistsReducer,
+	playlists: playlistsReducer,
 });
 
 const persistConfig = {
