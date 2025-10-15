@@ -1,8 +1,18 @@
 import { api } from "../client";
 
 export const authService = {
-	signIn: async (code: string) => {
-		const response = await api.post("/auth/signin", { code });
+	getCode: async () => {
+		const response = await api.get("v1/auth/spotify");
+		window.location.href = response.data.url;
+	},
+
+	callback: async (code: string) => {
+		const response = await api.get(`v1/auth/spotify/callback?code=${code}`);
+		return response.data.token;
+	},
+
+	getProfile: async () => {
+		const response = await api.get("/v1/user/profile");
 		return response.data;
 	},
 };

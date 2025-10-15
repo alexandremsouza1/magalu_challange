@@ -9,6 +9,7 @@ const Profile = () => {
 
 	const handleLogout = () => {
 		dispatch(clearUser());
+		localStorage.removeItem("token");
 	};
 
 	return (

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LayoutMain from "./layouts/LayoutMain";
 import Artists from "./pages/Artists";
+import AuthCallback from "./pages/AuthCallback";
 import Home from "./pages/Home";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -21,6 +22,7 @@ const App = () => {
 					<Routes>
 						{/* Rota pública */}
 						<Route path="/login" element={<Index />} />
+						<Route path="/authCallback" element={<AuthCallback />} />
 
 						{/* Rotas protegidas */}
 						<Route element={<ProtectedRoute />}>

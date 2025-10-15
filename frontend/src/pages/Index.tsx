@@ -1,18 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { setUser } from "../store/slices/userSlice";
 
 const Index = () => {
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
-
-	const handleLogin = () => {
-		const name = "Usuário Exemplo";
-		const email = "usuario@example.com";
-		dispatch(setUser({ name, email }));
-		navigate("/");
+	const handleSpotifyLogin = () => {
+		window.location.href = "http://127.0.0.1:9095/v1/auth/spotify";
 	};
 
 	return (
@@ -31,31 +22,22 @@ const Index = () => {
 				<img
 					src={logo}
 					alt="Logo do Spotify"
-					style={{
-						width: "300px",
-						height: "100px",
-						objectFit: "contain",
-					}}
+					style={{ width: "300px", height: "100px", objectFit: "contain" }}
 				/>
 			</Box>
 
 			<Typography
 				variant="h6"
-				sx={{
-					color: "white",
-					textAlign: "center",
-					fontSize: "20px",
-					whiteSpace: "nowrap",
-				}}
+				sx={{ color: "white", textAlign: "center", fontSize: "20px" }}
 			>
-				Entra com sua conta Spotify clicando no botão abaixo
+				Entre com sua conta Spotify clicando no botão abaixo
 			</Typography>
 
 			<Button
 				variant="contained"
 				color="primary"
 				size="large"
-				onClick={handleLogin}
+				onClick={handleSpotifyLogin}
 				sx={{ mt: 2 }}
 			>
 				Entrar
