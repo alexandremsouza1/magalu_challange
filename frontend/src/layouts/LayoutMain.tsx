@@ -11,7 +11,6 @@ const LayoutMain = () => {
 			<Sidebar isMobile={isMobile} />
 			<Box
 				flexGrow={1}
-				p={2}
 				sx={{
 					pt: isMobile ? "64px" : 2,
 					bgcolor: "#111",

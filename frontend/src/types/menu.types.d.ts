@@ -5,3 +5,9 @@ export type MenuItem = {
 	icon: MenuItemIcon;
 	route: string;
 };
+
+
+export type MenuState = {
+	items: MenuItem[];
+	activeItem: string;
+}
