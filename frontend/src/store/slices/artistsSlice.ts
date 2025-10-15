@@ -1,48 +1,83 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { artistsService } from "../../api/services/artists.service";
+import type { SpotifyTopArtistsResponse } from "../../types/spotify.types";
 
 export type Artist = {
-	id: string;
-	name: string;
-	image: string;
+  id: string;
+  name: string;
+  image: string;
 };
 
 type ArtistsState = {
-	list: Artist[];
+  list: Artist[];
+  loading: boolean;
+  error: string | null;
 };
 
 const initialState: ArtistsState = {
-	list: [
-		{
-			id: "1",
-			name: "Black Alien",
-			image: "https://i.scdn.co/image/ab6761610000e5eb9a1b6e9cb60e3f7f3b8a6f2a",
-		},
-		{
-			id: "2",
-			name: "Iguinho e Lulinha",
-			image: "https://i.scdn.co/image/ab6761610000e5ebf88a9a3e8cbe40eac16f9839",
-		},
-		{
-			id: "3",
-			name: "O Rappa",
-			image: "https://i.scdn.co/image/ab6761610000e5eb71bfc81250a6a9a58a34f1b0",
-		},
-		{
-			id: "4",
-			name: "NX Zero",
-			image: "https://i.scdn.co/image/ab6761610000e5eb3b153cb46e8f84c6d83e05f9",
-		},
-	],
+  list: [],
+  loading: false,
+  error: null,
 };
 
+export const getArtists = createAsyncThunk<
+  Artist[],
+  { range: string; limit: number; offset: number },
+  { state: { artists: ArtistsState }; rejectValue: string }
+>(
+  "artists/getArtists",
+  async ({ range, limit, offset }, { getState, rejectWithValue }) => {
+    const state = getState();
+    const alreadyLoaded = state.artists.list.length > 0;
+
+    if (alreadyLoaded) {
+      return state.artists.list;
+    }
+
+    try {
+      const response: SpotifyTopArtistsResponse = await artistsService.getArtists({
+        range,
+        limit,
+        offset,
+      });
+
+      const artists: Artist[] = response.items.map((artist) => ({
+        id: artist.id,
+        name: artist.name,
+        image: artist.images[0]?.url || "",
+      }));
+
+      return artists;
+    } catch (error) {
+      console.error("Error fetching artists:", error);
+      return rejectWithValue("Erro ao buscar artistas");
+    }
+  }
+);
+
 const artistsSlice = createSlice({
-	name: "artists",
-	initialState,
-	reducers: {
-		setArtists(state, action: PayloadAction<Artist[]>) {
-			state.list = action.payload;
-		},
-	},
+  name: "artists",
+  initialState,
+  reducers: {
+    setArtists(state, action: PayloadAction<Artist[]>) {
+      state.list = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getArtists.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getArtists.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
+      .addCase(getArtists.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Erro desconhecido";
+      });
+  },
 });
 
 export const { setArtists } = artistsSlice.actions;
