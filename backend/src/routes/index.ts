@@ -1,8 +1,7 @@
+import type { FastifyReply } from "fastify";
 import { fastify } from "../config/fastifyConfig.js";
-import { FastifyRequest, FastifyReply } from 'fastify';
-
 
 // Route principale
-fastify.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
-  return { message: "Hello World" };
+fastify.get("/", async (_, reply: FastifyReply) => {
+	reply.send({ message: "Hello World" });
 });

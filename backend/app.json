@@ -1,13 +1,10 @@
 {
-  "name": "node-rest",
-  "build": {
-    "type": "yarn",
-    "commands": [
-      "yarn install",
-      "yarn build"
-    ]
-  },
-  "deploy": {
-    "startCommand": "yarn start"
-  }
+	"name": "node-rest",
+	"build": {
+		"type": "yarn",
+		"commands": ["yarn install", "yarn build"]
+	},
+	"deploy": {
+		"startCommand": "yarn start"
+	}
 }

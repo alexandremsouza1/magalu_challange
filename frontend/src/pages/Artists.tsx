@@ -54,7 +54,13 @@ const Artists = () => {
 
 	return (
 		<Box
-			sx={{ height: "100vh", p: 4, display: "flex", flexDirection: "column", overflow: "auto" }}
+			sx={{
+				height: "100vh",
+				p: 4,
+				display: "flex",
+				flexDirection: "column",
+				overflow: "auto",
+			}}
 		>
 			{id && albums ? (
 				<>

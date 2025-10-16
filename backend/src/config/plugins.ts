@@ -1,21 +1,22 @@
-import { FastifyInstance } from 'fastify';
-import { corsConfig } from './cors.js';
-import { csrfConfig } from './csrf.js';
+import type { FastifyInstance } from "fastify";
+import { corsConfig } from "./cors.js";
 
 // Fonction pour enregistrer tous les plugins Fastify
-export const registerPlugins = async (fastify: FastifyInstance): Promise<void> => {
-  // Enregistrer le plugin CORS
-  await fastify.register(import('@fastify/cors'), corsConfig);
+export const registerPlugins = async (
+	fastify: FastifyInstance,
+): Promise<void> => {
+	// Enregistrer le plugin CORS
+	await fastify.register(import("@fastify/cors"), corsConfig);
 
-  // Enregistrer le plugin Cookie (nécessaire pour CSRF)
-  await fastify.register(import('@fastify/cookie'), {
-    secret: process.env.COOKIE_SECRET || 'your-secret-key-change-in-production',
-    parseOptions: {}
-  });
+	// Enregistrer le plugin Cookie (nécessaire pour CSRF)
+	await fastify.register(import("@fastify/cookie"), {
+		secret: process.env.COOKIE_SECRET || "your-secret-key-change-in-production",
+		parseOptions: {},
+	});
 
-  // Enregistrer le plugin CSRF Protection
-  await fastify.register(import('@fastify/csrf-protection'));
+	// Enregistrer le plugin CSRF Protection
+	await fastify.register(import("@fastify/csrf-protection"));
 
-  // Log de confirmation
-  fastify.log.info('🔧 Plugins enregistrés : CORS, Cookie, CSRF Protection');
+	// Log de confirmation
+	fastify.log.info("🔧 Plugins enregistrés : CORS, Cookie, CSRF Protection");
 };

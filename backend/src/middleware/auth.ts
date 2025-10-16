@@ -1,49 +1,50 @@
-import { FastifyReply } from 'fastify';
-import { verifyToken } from '../utils/jwt.js';
-import { AuthenticatedRequest } from '../types/index.js';
+import type { FastifyReply } from "fastify";
+import type { AuthenticatedRequest } from "../types/index.js";
+import { verifyToken } from "../utils/jwt.js";
 
-export const authenticateToken = async (request: AuthenticatedRequest, reply: FastifyReply): Promise<void> => {
-  try {
-    const authHeader = request.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+export const authenticateToken = async (
+	request: AuthenticatedRequest,
+	reply: FastifyReply,
+): Promise<void> => {
+	try {
+		const token = request.headers.authorization?.split(" ")[1]; // Bearer TOKEN
 
-    if (!token) {
-      reply.status(401).send({
-        error: 'Token d\'accès requis'
-      });
-      return;
-    }
+		if (!token) {
+			reply.status(401).send({
+				error: "Token de acesso é obrigatório",
+			});
+			return;
+		}
 
-    const decoded = verifyToken(token);
-    request.user = decoded;
+		const decoded = verifyToken(token);
 
-  } catch (error: any) {
-    if (error.name === 'TokenExpiredError') {
-      reply.status(401).send({
-        error: 'Token expiré'
-      });
-    } else if (error.name === 'JsonWebTokenError') {
-      reply.status(401).send({
-        error: 'Token invalide'
-      });
-    } else {
-      reply.status(401).send({
-        error: 'Token invalide'
-      });
-    }
-  }
-};
+		if (
+			typeof decoded !== "object" ||
+			!("userId" in decoded) ||
+			!("email" in decoded) ||
+			!("name" in decoded)
+		) {
+			reply.status(401).send({
+				error: "Token inválido",
+			});
+			return;
+		}
 
-export const optionalAuth = async (request: AuthenticatedRequest, reply: FastifyReply): Promise<void> => {
-  try {
-    const authHeader = request.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+		request.user = {
+			userId: Number(decoded.userId),
+			email: String(decoded.email),
+			name: String(decoded.name),
+		};
+	} catch (error) {
+		const err = error as Error & { name?: string };
 
-    if (token) {
-      const decoded = verifyToken(token);
-      request.user = decoded;
-    }
-  } catch (error) {
-    // Ignore errors for optional auth
-  }
+		const message =
+			err.name === "TokenExpiredError"
+				? "Token expirado"
+				: err.name === "JsonWebTokenError"
+					? "Token inválido"
+					: "Erro ao validar token";
+
+		reply.status(401).send({ error: message });
+	}
 };

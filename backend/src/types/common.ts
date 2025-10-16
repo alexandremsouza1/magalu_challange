@@ -1,58 +1,55 @@
-import { FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyReply, FastifyRequest } from "fastify";
 
-// Types communs pour les réponses API
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  message?: string;
-  error?: string;
-  details?: string[];
+export interface ApiResponse<T = unknown> {
+	success: boolean;
+	data?: T;
+	message?: string;
+	error?: string;
+	details?: string[];
 }
 
 export interface PaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
+	page: number;
+	limit: number;
+	total: number;
+	totalPages: number;
 }
 
 export interface PaginatedResponse<T> {
-  data: T[];
-  pagination: PaginationMeta;
+	data: T[];
+	pagination: PaginationMeta;
 }
 
-// Types pour les erreurs
-export interface ApiError {
-  code: string;
-  message: string;
-  details?: any;
+export interface ApiError<T = Record<string, unknown>> {
+	code: string;
+	message: string;
+	details?: T;
 }
 
-// Types pour les requêtes avec pagination
 export interface PaginationQuery {
-  page?: string;
-  limit?: string;
-  orderBy?: string;
-  order?: 'asc' | 'desc';
+	page?: string;
+	limit?: string;
+	orderBy?: string;
+	order?: "asc" | "desc";
 }
 
-// Types pour les réponses de validation
 export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
+	isValid: boolean;
+	errors: string[];
 }
 
-// Types génériques pour les contrôleurs
-export type ControllerFunction<T = any> = (
-  request: FastifyRequest<{ Body?: T; Querystring?: any; Params?: any }>,
-  reply: FastifyReply
+export type ControllerFunction<
+	Body = unknown,
+	Query = Record<string, string | undefined>,
+	Params = Record<string, string>,
+> = (
+	request: FastifyRequest<{ Body: Body; Querystring: Query; Params: Params }>,
+	reply: FastifyReply,
 ) => Promise<void>;
 
-// Types pour les middlewares
 export type MiddlewareFunction = (
-  request: FastifyRequest,
-  reply: FastifyReply
+	request: FastifyRequest,
+	reply: FastifyReply,
 ) => Promise<void>;
 
-// Types pour les utilitaires
-export type UtilityFunction<T = any, R = any> = (param: T) => R;
+export type UtilityFunction<T, R> = (param: T) => R;

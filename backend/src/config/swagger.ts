@@ -1,27 +1,27 @@
-import { FastifyInstance } from 'fastify';
-import { swaggerConfig } from './fastifyConfig.js';
-import swagger from '@fastify/swagger';
-import swaggerUi from '@fastify/swagger-ui';
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
+import type { FastifyInstance } from "fastify";
+import { swaggerConfig } from "./fastifyConfig.js";
 
 export const registerSwagger = async (fastify: FastifyInstance) => {
-  try {
-    // Enregistrer le plugin Swagger
-    await fastify.register(swagger, swaggerConfig);
+	try {
+		// Enregistrer le plugin Swagger
+		await fastify.register(swagger, swaggerConfig);
 
-    // Enregistrer le plugin Swagger UI
-    await fastify.register(swaggerUi, {
-      routePrefix: '/documentation',
-      uiConfig: {
-        docExpansion: 'full',
-        deepLinking: false
-      },
-      staticCSP: true
-    });
+		// Enregistrer le plugin Swagger UI
+		await fastify.register(swaggerUi, {
+			routePrefix: "/documentation",
+			uiConfig: {
+				docExpansion: "full",
+				deepLinking: false,
+			},
+			staticCSP: true,
+		});
 
-    fastify.log.info('📚 Swagger/OpenAPI configuré avec succès');
-  } catch (error) {
-    fastify.log.error('Erreur lors de la configuration Swagger:');
-    fastify.log.error(error);
-    throw error;
-  }
+		fastify.log.info("📚 Swagger/OpenAPI configuré avec succès");
+	} catch (error) {
+		fastify.log.error("Erreur lors de la configuration Swagger:");
+		fastify.log.error(error);
+		throw error;
+	}
 };
