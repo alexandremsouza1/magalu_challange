@@ -1,4 +1,5 @@
 import {
+	type ActionReducerMapBuilder,
 	createAsyncThunk,
 	createSlice,
 	type PayloadAction,
@@ -59,6 +60,67 @@ export const getPlaylists = createAsyncThunk<
 	}
 });
 
+export const addPlaylist = createAsyncThunk<
+	Playlist,
+	string,
+	{ rejectValue: string }
+>("playlists/addPlaylist", async (name: string, { rejectWithValue }) => {
+	try {
+		const playlist = await playlistService.addPlaylist(name);
+		return playlist;
+	} catch (error) {
+		console.error("Error adding playlist:", error);
+		return rejectWithValue("Erro ao adicionar playlist no servidor");
+	}
+});
+
+const getPlaylistBuilder = (
+	builder: ActionReducerMapBuilder<PlaylistsState>,
+) => {
+	builder
+		.addCase(getPlaylists.pending, (state) => {
+			state.loading = true;
+			state.error = null;
+		})
+		.addCase(getPlaylists.fulfilled, (state, action) => {
+			state.loading = false;
+			state.list = action.payload;
+		})
+		.addCase(getPlaylists.rejected, (state, action) => {
+			state.loading = false;
+			state.error = action.payload ?? "Erro desconhecido";
+		});
+};
+
+const addPlaylistBuilder = (
+	builder: ActionReducerMapBuilder<PlaylistsState>,
+) => {
+	builder
+		.addCase(addPlaylist.pending, (state, action) => {
+			state.list.push({
+				id: `temp-id-${Date.now()}`,
+				name: action.meta.arg,
+				image: "",
+				owner: "Você",
+				tracksCount: 0,
+			});
+			state.error = null;
+			if (state.list.length === 1) {
+				state.loading = true;
+			}
+		})
+		.addCase(addPlaylist.fulfilled, (state) => {
+			state.loading = false;
+			console.info("✅ Playlist sincronizada com o servidor");
+		})
+		.addCase(addPlaylist.rejected, (state, action) => {
+			const failedPlaylistId = action.meta.arg;
+			state.list = state.list.filter((p) => p.id !== failedPlaylistId);
+			state.error = action.payload ?? "Erro ao sincronizar playlist";
+			state.loading = false;
+		});
+};
+
 const playlistsSlice = createSlice({
 	name: "playlists",
 	initialState,
@@ -68,19 +130,8 @@ const playlistsSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder
-			.addCase(getPlaylists.pending, (state) => {
-				state.loading = true;
-				state.error = null;
-			})
-			.addCase(getPlaylists.fulfilled, (state, action) => {
-				state.loading = false;
-				state.list = action.payload;
-			})
-			.addCase(getPlaylists.rejected, (state, action) => {
-				state.loading = false;
-				state.error = action.payload ?? "Erro desconhecido";
-			});
+		getPlaylistBuilder(builder);
+		addPlaylistBuilder(builder);
 	},
 });
 

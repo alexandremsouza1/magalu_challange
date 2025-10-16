@@ -48,6 +48,7 @@ export const getArtists = createAsyncThunk<
 				id: artist.id,
 				name: artist.name,
 				image: artist.images[0]?.url || "",
+				date: "",
 			}));
 
 			return artists;

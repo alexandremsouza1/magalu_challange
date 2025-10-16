@@ -9,16 +9,24 @@ import {
 	ListItemText,
 	Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CreatePlaylistDialog from "../components/CreatePlaylistDialog";
 import type { AppDispatch, RootState } from "../store";
-import { getPlaylists } from "../store/slices/playlistSlice";
+import { addPlaylist, getPlaylists } from "../store/slices/playlistSlice";
 
 const Playlists = () => {
 	const dispatch = useDispatch<AppDispatch>();
+	const [open, setOpen] = useState(false);
+
 	const { list, loading, error } = useSelector(
 		(state: RootState) => state.playlists,
 	);
+
+	const handleCreatePlaylist = (name: string) => {
+		dispatch(addPlaylist(name));
+		setOpen(false);
+	};
 
 	useEffect(() => {
 		dispatch(getPlaylists());
@@ -26,13 +34,13 @@ const Playlists = () => {
 
 	return (
 		<Box
-			sx={{
-				backgroundColor: "#000",
-				color: "#fff",
-				minHeight: "100vh",
-				p: 4,
-			}}
+			sx={{ backgroundColor: "#000", color: "#fff", minHeight: "100vh", p: 4 }}
 		>
+			<CreatePlaylistDialog
+				open={open}
+				onClose={() => setOpen(false)}
+				onCreate={handleCreatePlaylist}
+			/>
 			{/* Cabeçalho */}
 			<Box
 				display="flex"
@@ -51,15 +59,14 @@ const Playlists = () => {
 
 				<Button
 					variant="contained"
+					onClick={() => setOpen(true)}
 					sx={{
 						backgroundColor: "#1DB954",
 						color: "#000",
 						textTransform: "none",
 						fontWeight: 600,
 						borderRadius: "50px",
-						"&:hover": {
-							backgroundColor: "#1ed760",
-						},
+						"&:hover": { backgroundColor: "#1ed760" },
 					}}
 				>
 					Criar playlist
@@ -88,10 +95,7 @@ const Playlists = () => {
 						{list.map((playlist) => (
 							<ListItem
 								key={playlist.id}
-								sx={{
-									"&:hover": { backgroundColor: "#111" },
-									borderRadius: 1,
-								}}
+								sx={{ "&:hover": { backgroundColor: "#111" }, borderRadius: 1 }}
 							>
 								<ListItemAvatar>
 									<Avatar
