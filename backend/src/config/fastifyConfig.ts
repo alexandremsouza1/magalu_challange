@@ -67,13 +67,13 @@ export const swaggerConfig = {
 		openapi: "3.0.0",
 		info: {
 			title: "API Node REST",
-			description: "API REST pour la gestion des posts et catégories",
+			description: "API REST Challange Spotify",
 			version: "1.0.0",
 		},
 		servers: [
 			{
 				url: "http://localhost:3001",
-				description: "Serveur de développement",
+				description: "Server Development",
 			},
 		],
 		components: {

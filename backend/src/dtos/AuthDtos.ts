@@ -1,43 +1,93 @@
-// Schémas JSON pour l'authentification
 
 /**
- * Schéma pour la connexion
+ * Schema to initiate Spotify authentication
+ * GET /auth/spotify
  */
-export const loginSchema = {
-	body: {
+export const AuthSpotifySchema = {
+	response: {
+		200: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
+				data: {
+					type: "object",
+					properties: {
+						url: { type: "string", format: "uri" },
+					},
+				},
+			},
+		},
+		500: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
+				error: { type: "string" },
+			},
+		},
+	},
+};
+
+/**
+ * Schema for Spotify callback
+ * GET /auth/spotify/callback
+ */
+export const AuthSpotifyCallbackSchema = {
+	querystring: {
 		type: "object",
-		required: ["email", "password"],
 		properties: {
-			email: {
-				type: "string",
-				format: "email",
-			},
-			password: {
-				type: "string",
-				minLength: 6,
-			},
+			code: { type: "string" },
+			error: { type: "string" },
 		},
 	},
 	response: {
 		200: {
 			type: "object",
 			properties: {
-				message: { type: "string" },
-				token: { type: "string" },
-				refreshToken: { type: "string" },
-				user: {
+				success: { type: "boolean" },
+				data: {
 					type: "object",
 					properties: {
-						id: { type: "number" },
-						email: { type: "string" },
-						name: { type: "string" },
+						profile: {
+							type: "object",
+							properties: {
+								provider: { type: "string" },
+								id: { type: "string" },
+								username: { type: "string" },
+								displayName: { type: "string" },
+								email: { type: "string", format: "email" },
+								profileUrl: { type: "string", format: "uri" },
+								photos: {
+									type: "array",
+									items: { type: "string", format: "uri" },
+								},
+								country: { type: "string" },
+								followers: { type: "number" },
+								product: { type: "string" },
+							},
+						},
+						tokens: {
+							type: "object",
+							properties: {
+								accessToken: { type: "string" },
+								refreshToken: { type: "string" },
+								expiresIn: { type: "number" },
+							},
+						},
 					},
 				},
 			},
 		},
-		401: {
+		400: {
 			type: "object",
 			properties: {
+				success: { type: "boolean" },
+				error: { type: "string" },
+			},
+		},
+		500: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
 				error: { type: "string" },
 			},
 		},
@@ -45,92 +95,10 @@ export const loginSchema = {
 };
 
 /**
- * Schéma pour l'inscription
+ * Schema for refreshing Spotify token
+ * POST /auth/spotify/refresh
  */
-export const registerSchema = {
-	body: {
-		type: "object",
-		required: ["email", "password", "name"],
-		properties: {
-			email: {
-				type: "string",
-				format: "email",
-			},
-			password: {
-				type: "string",
-				minLength: 6,
-			},
-			name: {
-				type: "string",
-				minLength: 2,
-				maxLength: 100,
-			},
-		},
-	},
-	response: {
-		201: {
-			type: "object",
-			properties: {
-				message: { type: "string" },
-				token: { type: "string" },
-				user: {
-					type: "object",
-					properties: {
-						id: { type: "number" },
-						email: { type: "string" },
-						name: { type: "string" },
-					},
-				},
-			},
-		},
-		409: {
-			type: "object",
-			properties: {
-				error: { type: "string" },
-			},
-		},
-	},
-};
-
-/**
- * Schéma pour le profil utilisateur
- */
-export const meSchema = {
-	headers: {
-		type: "object",
-		properties: {
-			authorization: { type: "string" },
-		},
-	},
-	response: {
-		200: {
-			type: "object",
-			properties: {
-				message: { type: "string" },
-				user: {
-					type: "object",
-					properties: {
-						id: { type: "number" },
-						email: { type: "string" },
-						name: { type: "string" },
-						createdAt: { type: "string", format: "date-time" },
-					},
-				},
-			},
-		},
-		401: {
-			type: "object",
-			properties: {
-				error: { type: "string" },
-			},
-		},
-	},
-};
-
-/**
- * Schéma pour le refresh token
- */
-export const refreshTokenSchema = {
+export const RefreshSpotifyTokenSchema = {
 	body: {
 		type: "object",
 		required: ["refreshToken"],
@@ -144,28 +112,28 @@ export const refreshTokenSchema = {
 		200: {
 			type: "object",
 			properties: {
-				message: { type: "string" },
-				token: { type: "string" },
+				success: { type: "boolean" },
+				data: {
+					type: "object",
+					properties: {
+						accessToken: { type: "string" },
+						expiresIn: { type: "number" },
+					},
+				},
 			},
 		},
-		401: {
+		400: {
 			type: "object",
 			properties: {
+				success: { type: "boolean" },
 				error: { type: "string" },
 			},
 		},
-	},
-};
-
-/**
- * Schéma pour la déconnexion
- */
-export const logoutSchema = {
-	response: {
-		200: {
+		500: {
 			type: "object",
 			properties: {
-				message: { type: "string" },
+				success: { type: "boolean" },
+				error: { type: "string" },
 			},
 		},
 	},
