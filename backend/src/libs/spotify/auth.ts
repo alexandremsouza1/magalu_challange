@@ -1,6 +1,6 @@
+import querystring from "node:querystring";
 import { SPOTIFY_AUTH_URL } from "./envs";
-import { SpotifyAuthUrlParams } from "./types";
-import querystring from "querystring";
+import type { SpotifyAuthUrlParams } from "./types";
 
 export function getSpotifyAuthUrl({
 	clientId,

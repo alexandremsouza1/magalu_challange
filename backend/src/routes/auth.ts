@@ -3,8 +3,8 @@ import { fastify } from "../config/fastifyConfig.js";
 import { authSpotify, authSpotifyCallback } from "../controllers/auth.js";
 
 import {
-	AuthSpotifySchema,
 	AuthSpotifyCallbackSchema,
+	AuthSpotifySchema,
 } from "../dtos/AuthDtos.js";
 
 fastify.get("/v1/auth/spotify", { schema: AuthSpotifySchema }, authSpotify);

@@ -50,7 +50,7 @@ export interface SpotifyRawProfile {
 	country: string;
 	followers: SpotifyFollowers;
 	product: string;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 export interface SpotifyProfile {

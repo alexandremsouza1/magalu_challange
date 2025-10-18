@@ -1,12 +1,12 @@
+import querystring from "node:querystring";
 import { SPOTIFY_PROFILE_URL, SPOTIFY_TOKEN_URL } from "./envs";
-import {
+import type {
 	SpotifyProfile,
 	SpotifyRawProfile,
 	SpotifyRefreshTokenParams,
 	SpotifyTokenParams,
 	SpotifyTokenResponse,
 } from "./types";
-import querystring from "querystring";
 
 export async function getSpotifyTokens({
 	code,

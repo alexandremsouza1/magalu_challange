@@ -1,16 +1,17 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { getSpotifyAuthUrl } from "../libs/spotify/auth.js";
 import {
-	getSpotifyTokens,
 	getSpotifyProfile,
+	getSpotifyTokens,
 	refreshSpotifyToken,
 } from "../libs/spotify/tokens.js";
-import { RefreshTokenBody, SpotifyCallbackQuery } from "../types";
+import type { RefreshTokenBody, SpotifyCallbackQuery } from "../types";
+import { getEnvVariable } from "../utils/autoLoad.js";
 
 // Variáveis de ambiente
-const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID!;
-const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET!;
-const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI!;
+const SPOTIFY_CLIENT_ID = getEnvVariable("SPOTIFY_CLIENT_ID");
+const SPOTIFY_CLIENT_SECRET = getEnvVariable("SPOTIFY_CLIENT_SECRET");
+const SPOTIFY_REDIRECT_URI = getEnvVariable("SPOTIFY_REDIRECT_URI");
 
 // Escopos necessários para a aplicação
 const SPOTIFY_SCOPES = [
@@ -22,7 +23,7 @@ const SPOTIFY_SCOPES = [
 ];
 
 export const authSpotify = async (
-	request: FastifyRequest,
+	_request: FastifyRequest,
 	reply: FastifyReply,
 ) => {
 	try {
