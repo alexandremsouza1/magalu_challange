@@ -73,6 +73,22 @@ cd ../frontend
 npm run dev
 ```
 
+#### 5. Rodar os testes (opcional)
+## Utilização do Jest como framework de testes
+
+No backend:
+```bash
+cd backend
+npm run test
+```
+
+No frontend:
+```bash
+cd ../frontend
+npm run test
+```
+
+
 Acesse o app em: **http://localhost:5173**
 
 ---
