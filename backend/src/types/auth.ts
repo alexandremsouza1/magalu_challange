@@ -37,15 +37,13 @@ export interface ErrorResponse {
  * Refresh do token de acesso
  */
 export interface RefreshTokenBody {
-  refreshToken: string;
+	refreshToken: string;
 }
 
 export interface SpotifyCallbackQuery {
-  code?: string;
-  error?: string;
+	code?: string;
+	error?: string;
 }
-
-
 
 // Controllers tradicionais
 export type LoginController = (
@@ -141,15 +139,15 @@ export interface SpotifyRefreshTokenResponse {
 // Tipos dos controllers Spotify
 export type AuthSpotifyController = (
 	request: FastifyRequest,
-	reply: FastifyReply
+	reply: FastifyReply,
 ) => Promise<void>;
 
 export type AuthSpotifyCallbackController = (
 	request: FastifyRequest<{ Querystring: SpotifyCallbackQuery }>,
-	reply: FastifyReply
+	reply: FastifyReply,
 ) => Promise<void>;
 
 export type RefreshSpotifyTokenController = (
 	request: FastifyRequest<{ Body: SpotifyRefreshTokenRequest }>,
-	reply: FastifyReply
+	reply: FastifyReply,
 ) => Promise<void>;

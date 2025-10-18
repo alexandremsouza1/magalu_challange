@@ -1,4 +1,3 @@
-
 /**
  * Schema to initiate Spotify authentication
  * GET /auth/spotify
