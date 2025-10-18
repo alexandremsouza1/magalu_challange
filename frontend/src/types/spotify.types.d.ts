@@ -17,7 +17,7 @@ export interface SpotifyArtist {
 	images: SpotifyImage[];
 	name: string;
 	popularity: number;
-	type: "artist";
+	type: string;
 	uri: string;
 }
 
@@ -88,7 +88,7 @@ export interface SpotifyAlbum {
 	name: string;
 	release_date: string;
 	release_date_precision: "year" | "month" | "day";
-	type: "album";
+	type: string;
 	uri: string;
 	artists: SpotifyArtistSummary[];
 	album_group: string;

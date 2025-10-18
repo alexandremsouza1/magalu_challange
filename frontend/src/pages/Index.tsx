@@ -1,9 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import logo from "../assets/logo.png";
+import { CALLBACK_URL } from "../config/env";
 
 const Index = () => {
 	const handleSpotifyLogin = () => {
-		window.location.href = "http://127.0.0.1:9095/v1/auth/spotify";
+		window.location.href = CALLBACK_URL;
 	};
 
 	return (

@@ -30,4 +30,12 @@ const localStorageMock = {
 	clear: jest.fn(),
 };
 
+const location = {
+	href: "",
+	assign: jest.fn(),
+	replace: jest.fn(),
+	reload: jest.fn(),
+};
+
 global.localStorage = localStorageMock as unknown as Storage;
+global.location = location as unknown as Location;
