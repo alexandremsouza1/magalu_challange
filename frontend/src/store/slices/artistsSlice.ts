@@ -53,7 +53,6 @@ export const getArtists = createAsyncThunk<
 
 			return artists;
 		} catch (error) {
-			console.error("Error fetching artists:", error);
 			return rejectWithValue("Erro ao buscar artistas");
 		}
 	},
@@ -73,7 +72,6 @@ export const getAlbumsArtist = createAsyncThunk<
 			date: album.release_date,
 		}));
 	} catch (error) {
-		console.error("Error fetching artist details:", error);
 		return rejectWithValue("Erro ao buscar detalhes do artista");
 	}
 });
