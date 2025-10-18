@@ -36,7 +36,6 @@ export const getPlaylists = createAsyncThunk<
 	const alreadyLoaded = state.playlists.list.length > 0;
 
 	if (alreadyLoaded) {
-		console.info("✅ Playlists já carregadas — evitando nova chamada.");
 		return state.playlists.list;
 	}
 
@@ -54,8 +53,7 @@ export const getPlaylists = createAsyncThunk<
 		);
 
 		return playlists;
-	} catch (error) {
-		console.error("Error fetching playlists:", error);
+	} catch {
 		return rejectWithValue("Erro ao buscar playlists");
 	}
 });
@@ -68,8 +66,7 @@ export const addPlaylist = createAsyncThunk<
 	try {
 		const playlist = await playlistService.addPlaylist(name);
 		return playlist;
-	} catch (error) {
-		console.error("Error adding playlist:", error);
+	} catch {
 		return rejectWithValue("Erro ao adicionar playlist no servidor");
 	}
 });
@@ -111,11 +108,10 @@ const addPlaylistBuilder = (
 		})
 		.addCase(addPlaylist.fulfilled, (state) => {
 			state.loading = false;
-			console.info("✅ Playlist sincronizada com o servidor");
 		})
 		.addCase(addPlaylist.rejected, (state, action) => {
-			const failedPlaylistId = action.meta.arg;
-			state.list = state.list.filter((p) => p.id !== failedPlaylistId);
+			const failedPlaylistName = action.meta.arg;
+			state.list = state.list.filter((p) => p.name !== failedPlaylistName);
 			state.error = action.payload ?? "Erro ao sincronizar playlist";
 			state.loading = false;
 		});
