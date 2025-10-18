@@ -52,7 +52,7 @@ export const getArtists = createAsyncThunk<
 			}));
 
 			return artists;
-		} catch (error) {
+		} catch {
 			return rejectWithValue("Erro ao buscar artistas");
 		}
 	},
@@ -71,7 +71,7 @@ export const getAlbumsArtist = createAsyncThunk<
 			image: album.images[0]?.url || "",
 			date: album.release_date,
 		}));
-	} catch (error) {
+	} catch {
 		return rejectWithValue("Erro ao buscar detalhes do artista");
 	}
 });

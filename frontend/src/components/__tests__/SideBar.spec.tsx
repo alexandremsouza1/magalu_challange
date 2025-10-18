@@ -59,9 +59,9 @@ describe("Sidebar Component", () => {
 			renderWithProviders(<Sidebar isMobile={false} />);
 
 			expect(screen.getByText("Home")).toBeInTheDocument();
-			expect(screen.getByText("Albums")).toBeInTheDocument();
+			expect(screen.getByText("Artistas")).toBeInTheDocument();
 			expect(screen.getByText("Playlists")).toBeInTheDocument();
-			expect(screen.getByText("Profile")).toBeInTheDocument();
+			expect(screen.getByText("Perfil")).toBeInTheDocument();
 		});
 
 		it("should render the logo in desktop mode", () => {
@@ -77,8 +77,8 @@ describe("Sidebar Component", () => {
 			});
 			renderWithProviders(<Sidebar isMobile={false} />, store);
 
-			const albumsButton = screen.getByText("Artistas").closest("a");
-			expect(albumsButton).toHaveStyle({ color: "rgb(29, 185, 84)" }); // #1DB954 em RGB
+			const artistasButton = screen.getByText("Artistas").closest("a");
+			expect(artistasButton).toHaveStyle({ color: "rgb(29, 185, 84)" }); // #1DB954 em RGB
 		});
 
 		it("should update the active item when clicked", async () => {
@@ -131,7 +131,7 @@ describe("Sidebar Component", () => {
 
 			await waitFor(() => {
 				expect(screen.getByText("Home")).toBeVisible();
-				expect(screen.getByText("Albums")).toBeVisible();
+				expect(screen.getByText("Artistas")).toBeVisible();
 			});
 		});
 
@@ -159,8 +159,8 @@ describe("Sidebar Component", () => {
 		it("should navigate to the correct route when an item is clicked", () => {
 			renderWithProviders(<Sidebar isMobile={false} />);
 
-			const albumsLink = screen.getByText("Albums").closest("a");
-			expect(albumsLink).toHaveAttribute("href", "/albums");
+			const artistasLink = screen.getByText("Artistas").closest("a");
+			expect(artistasLink).toHaveAttribute("href", "/artists");
 		});
 
 		it("should update the active item based on the current route", () => {
@@ -168,13 +168,13 @@ describe("Sidebar Component", () => {
 
 			jest
 				.spyOn(require("react-router-dom"), "useLocation")
-				.mockReturnValue({ pathname: "/albums" });
+				.mockReturnValue({ pathname: "/artists" });
 
 			renderWithProviders(<Sidebar isMobile={false} />, store);
 
 			waitFor(() => {
 				const state = store.getState();
-				expect(state.menu.activeItem).toBe("Albums");
+				expect(state.menu.activeItem).toBe("Artistas");
 			});
 		});
 	});
