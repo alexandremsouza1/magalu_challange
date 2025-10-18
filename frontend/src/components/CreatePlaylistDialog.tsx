@@ -46,6 +46,7 @@ const CreatePlaylistDialog = ({
 			}}
 		>
 			<IconButton
+				data-testid="close-button"
 				onClick={onClose}
 				sx={{
 					position: "absolute",

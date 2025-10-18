@@ -131,3 +131,5 @@ const artistsSlice = createSlice({
 
 export const { setArtists } = artistsSlice.actions;
 export default artistsSlice.reducer;
+
+export type { Artist, ArtistsState };

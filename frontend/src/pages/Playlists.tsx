@@ -12,20 +12,27 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreatePlaylistDialog from "../components/CreatePlaylistDialog";
+import { ErrorNotifier, SuccessNotifier } from "../components/Notifier";
 import type { AppDispatch, RootState } from "../store";
 import { addPlaylist, getPlaylists } from "../store/slices/playlistSlice";
 
 const Playlists = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [open, setOpen] = useState(false);
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
 	const { list, loading, error } = useSelector(
 		(state: RootState) => state.playlists,
 	);
 
-	const handleCreatePlaylist = (name: string) => {
-		dispatch(addPlaylist(name));
-		setOpen(false);
+	const handleCreatePlaylist = async (name: string) => {
+		try {
+			await dispatch(addPlaylist(name)).unwrap();
+			setOpen(false);
+			setSuccessMessage(`Playlist "${name}" criada com sucesso!`);
+		} catch {
+			<ErrorNotifier error="Erro ao criar playlist" />;
+		}
 	};
 
 	useEffect(() => {
@@ -34,20 +41,33 @@ const Playlists = () => {
 
 	return (
 		<Box
-			sx={{ backgroundColor: "#000", color: "#fff", minHeight: "100vh", p: 4 }}
+			sx={{
+				backgroundColor: "#000",
+				color: "#fff",
+				height: "100vh",
+				overflow: "auto",
+				p: 4,
+			}}
 		>
 			<CreatePlaylistDialog
 				open={open}
 				onClose={() => setOpen(false)}
 				onCreate={handleCreatePlaylist}
 			/>
-			{/* Cabeçalho */}
+
+			<SuccessNotifier
+				message={successMessage ?? undefined}
+				onClose={() => setSuccessMessage(null)}
+			/>
+
+			{/* Cabeçalho flexível */}
 			<Box
 				display="flex"
 				justifyContent="space-between"
 				alignItems="center"
 				mb={4}
 			>
+				{/* Título e subtítulo */}
 				<Box>
 					<Typography variant="h5" fontWeight="bold">
 						Minhas Playlists
@@ -57,6 +77,7 @@ const Playlists = () => {
 					</Typography>
 				</Box>
 
+				{/* Botão criar */}
 				<Button
 					variant="contained"
 					onClick={() => setOpen(true)}
@@ -91,11 +112,14 @@ const Playlists = () => {
 				(list.length === 0 ? (
 					<Typography color="gray">Nenhuma playlist encontrada.</Typography>
 				) : (
-					<List>
+					<List sx={{ p: 0 }}>
 						{list.map((playlist) => (
 							<ListItem
 								key={playlist.id}
-								sx={{ "&:hover": { backgroundColor: "#111" }, borderRadius: 1 }}
+								sx={{
+									"&:hover": { backgroundColor: "#111" },
+									borderRadius: 1,
+								}}
 							>
 								<ListItemAvatar>
 									<Avatar
@@ -105,7 +129,6 @@ const Playlists = () => {
 										sx={{ width: 64, height: 64, borderRadius: 1, mr: 2 }}
 									/>
 								</ListItemAvatar>
-
 								<ListItemText
 									primary={
 										<Typography fontWeight="medium" color="#fff">

@@ -1,5 +1,6 @@
-import '@testing-library/jest-dom';
-import { TextEncoder, TextDecoder } from 'util';
+import "@testing-library/jest-dom";
+import { TextDecoder, TextEncoder } from "node:util";
 
-(global as any).TextEncoder = TextEncoder;
-(global as any).TextDecoder = TextDecoder;
+// Corrige erros de encoder/decoder no jsdom
+global.TextEncoder = TextEncoder as unknown as typeof global.TextEncoder;
+global.TextDecoder = TextDecoder as unknown as typeof global.TextDecoder;

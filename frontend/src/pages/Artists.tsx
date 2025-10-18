@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ArtistCard from "../components/ArtistCard";
-import ErrorNotifier from "../components/ErrorNotifier";
+import { ErrorNotifier } from "../components/Notifier";
 import type { AppDispatch, RootState } from "../store";
 import { getAlbumsArtist, getArtists } from "../store/slices/artistsSlice";
 
