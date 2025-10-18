@@ -49,14 +49,14 @@ npm install
 ```env
 SPOTIFY_CLIENT_ID=seu_client_id
 SPOTIFY_CLIENT_SECRET=seu_client_secret
-SPOTIFY_REDIRECT_URI=http://localhost:4000/v1/auth/spotify/callback
+SPOTIFY_REDIRECT_URI=http://localhost:3001/v1/auth/spotify/callback
+FRONTEND_URL=http://localhost:5173
 JWT_SECRET=sua_chave_jwt
-PORT=4000
 ```
 
 #### Frontend (`frontend/.env`):
 ```env
-VITE_API_URL=http://localhost:4000
+VITE_API_URL=http://localhost:5173
 ```
 
 ### 4. Rodar localmente
