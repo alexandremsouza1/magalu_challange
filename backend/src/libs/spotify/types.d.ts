@@ -119,6 +119,41 @@ export interface SimplifiedAlbum {
 	album_group: "album" | "single" | "compilation" | "appears_on";
 }
 
+export interface SpotifyPlaylist {
+	collaborative: boolean;
+	description: string;
+	external_urls: {
+		spotify: string;
+	};
+	href: string;
+	id: string;
+	images: Array<{
+		height: number | null;
+		url: string;
+		width: number | null;
+	}>;
+	name: string;
+	owner: {
+		display_name: string;
+		external_urls: {
+			spotify: string;
+		};
+		href: string;
+		id: string;
+		type: string;
+		uri: string;
+	};
+	primary_color: string | null;
+	public: boolean;
+	snapshot_id: string;
+	tracks: {
+		href: string;
+		total: number;
+	};
+	type: string;
+	uri: string;
+}
+
 interface SpotifyPaginatedResponse<T> {
 	href: string;
 	limit: number;
@@ -133,4 +168,7 @@ export interface SpotifyArtistAlbumsResponse
 	extends SpotifyPaginatedResponse<SimplifiedAlbum> {}
 
 export interface SpotifyTopArtistsResponse
-	extends SpotifyPaginatedResponse<SpotifyArtist> {}
+  extends SpotifyPaginatedResponse<SpotifyArtist> { }
+  
+export interface SpotifyUserPlaylistsResponse
+  extends SpotifyPaginatedResponse<SpotifyPlaylist> {}

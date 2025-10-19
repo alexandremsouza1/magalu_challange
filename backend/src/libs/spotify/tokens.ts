@@ -11,6 +11,7 @@ import type {
 	SpotifyTokenParams,
 	SpotifyTokenResponse,
 	SpotifyTopArtistsResponse,
+  SpotifyUserPlaylistsResponse,
 } from "./types";
 
 export async function getSpotifyTokens({
@@ -125,4 +126,19 @@ export async function getSpotifyArtistAlbums(
 		throw new Error("Failed to fetch artist albums");
 	}
 	return (await res.json()) as Promise<SpotifyArtistAlbumsResponse>;
+}
+
+export async function getSpotifyUserPlaylists(
+  accessToken: string
+): Promise<SpotifyUserPlaylistsResponse> {
+  const url = `${SPOTIFY_API_URL}/me/playlists`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user playlists");
+  }
+  return (await res.json()) as Promise<SpotifyUserPlaylistsResponse>;
 }
