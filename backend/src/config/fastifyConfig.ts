@@ -72,7 +72,7 @@ export const swaggerConfig = {
 		},
 		servers: [
 			{
-				url: "http://localhost:3001",
+				url: "http://localhost:4000",
 				description: "Server Development",
 			},
 		],
@@ -89,6 +89,6 @@ export const swaggerConfig = {
 };
 
 export const fastifyConfig: FastifyConfig = {
-	port: process.env.API_PORT ? parseInt(process.env.API_PORT, 10) : 3001,
+	port: process.env.API_PORT ? parseInt(process.env.API_PORT, 10) : 4000,
 	host: process.env.API_HOST ? process.env.API_HOST : "0.0.0.0",
 };

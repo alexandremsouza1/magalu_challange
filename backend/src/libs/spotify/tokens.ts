@@ -87,19 +87,5 @@ export async function getSpotifyProfile(
 		throw new Error("Failed to fetch user profile");
 	}
 
-	const json = (await res.json()) as SpotifyRawProfile;
-
-	return {
-		provider: "spotify",
-		id: json.id,
-		username: json.id,
-		displayName: json.display_name,
-		email: json.email,
-		profileUrl: json.external_urls?.spotify,
-		photos: json.images?.map((i) => i.url) ?? [],
-		country: json.country,
-		followers: json.followers?.total,
-		product: json.product,
-		raw: json,
-	};
+	return await res.json() as Promise<SpotifyProfile>;
 }

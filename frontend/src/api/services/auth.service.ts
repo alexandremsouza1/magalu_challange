@@ -13,6 +13,6 @@ export const authService = {
 
 	getProfile: async () => {
 		const response = await api.get("/v1/user/profile");
-		return response.data;
+		return response.data.data;
 	},
 };

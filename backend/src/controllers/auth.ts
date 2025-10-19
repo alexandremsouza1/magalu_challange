@@ -7,7 +7,7 @@ import {
 } from "../libs/spotify/tokens.js";
 import type { RefreshTokenBody, SpotifyCallbackQuery } from "../types";
 import { getEnvVariable } from "../utils/autoLoad.js";
-import { createToken } from "../utils/jwt.js";
+import { createToken, verifyToken } from "../utils/jwt.js";
 
 // Variáveis de ambiente
 const SPOTIFY_CLIENT_ID = getEnvVariable("SPOTIFY_CLIENT_ID");
@@ -84,6 +84,49 @@ export const authSpotifyCallback = async (
 		return reply.status(500).send({
 			success: false,
 			error: "Failed to complete Spotify authentication",
+		});
+	}
+};
+
+
+export const getUserProfile = async (
+	request: FastifyRequest,
+	reply: FastifyReply,
+) => {
+	try {
+		const authHeader = request.headers.authorization;
+
+		if (!authHeader) {
+			return reply.status(401).send({
+				success: false,
+				error: "Authorization header not provided",
+			});
+		}
+
+		const accessToken = authHeader.replace("Bearer ", "");
+
+		const decodedToken = verifyToken(accessToken);
+
+		if (
+			typeof decodedToken !== "object" ||
+			!decodedToken.access_token
+		) {
+			return reply.status(401).send({
+				success: false,
+				error: "Invalid access token",
+			});
+		}
+
+		const profile = await getSpotifyProfile(decodedToken.access_token);
+		return reply.status(200).send({
+			success: true,
+			data: profile,
+		});
+	} catch (error) {
+		console.error("Error fetching user profile:", error);
+		return reply.status(500).send({
+			success: false,
+			error: "Failed to fetch user profile",
 		});
 	}
 };

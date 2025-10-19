@@ -137,3 +137,78 @@ export const RefreshSpotifyTokenSchema = {
 		},
 	},
 };
+
+
+/**
+ * Schema for getting user profile
+ * GET /user/profile
+ */
+export const UserProfileSchema = {
+	headers: {
+		type: "object",
+		required: ["authorization"],
+		properties: {
+			authorization: {
+				type: "string",
+				description: "Bearer token",
+			},
+		},
+	},
+	response: {
+		200: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
+				data: {
+					type: "object",
+					properties: {
+						display_name: { type: "string" },
+						email: { type: "string", format: "email" },
+						external_urls: {
+							type: "object",
+							properties: {
+								spotify: { type: "string", format: "uri" },
+							},
+						},
+						followers: {
+							type: "object",
+							properties: {
+								href: { type: ["string", "null"], format: "uri" },
+								total: { type: "number" },
+							},
+						},
+						href: { type: "string", format: "uri" },
+						id: { type: "string" },
+						images: {
+							type: "array",
+							items: {
+								type: "object",
+								properties: {
+									height: { type: "number" },
+									url: { type: "string", format: "uri" },
+									width: { type: "number" },
+								},
+							},
+						},
+						type: { type: "string" },
+						uri: { type: "string" },
+					},
+				},
+			},
+		},
+		401: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
+				error: { type: "string" },
+			},
+		},
+		500: {
+			type: "object",
+			properties: {
+				success: { type: "boolean" },
+				error: { type: "string" },
+			},
+		},
+	},
+};
