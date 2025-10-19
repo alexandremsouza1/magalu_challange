@@ -20,6 +20,6 @@ export const artistsService = {
 
 	getAlbumsArtist: async (id: string): Promise<SpotifyArtistAlbumsResponse> => {
 		const response = await api.get(`/v1/artists/${id}/albums`);
-		return response.data;
+		return response.data.data;
 	},
 };

@@ -1,5 +1,8 @@
 import type { FastifyReply } from "fastify";
-import { getSpotifyTopArtists } from "../libs/spotify/tokens";
+import {
+	getSpotifyArtistAlbums,
+	getSpotifyTopArtists,
+} from "../libs/spotify/tokens";
 import type { AuthenticatedRequest } from "../types";
 
 export const getTopArtists = async (
@@ -30,6 +33,33 @@ export const getTopArtists = async (
 		return reply.status(500).send({
 			success: false,
 			error: "Failed to fetch artists",
+		});
+	}
+};
+
+export const getAlbumsArtist = async (
+	request: AuthenticatedRequest,
+	reply: FastifyReply,
+) => {
+	try {
+		if (!request.auth) {
+			return reply.status(401).send({
+				success: false,
+				error: "Invalid authentication data",
+			});
+		}
+
+		const { id } = request.params as { id: string };
+		const albums = await getSpotifyArtistAlbums(id, request.auth.access_token);
+		return reply.status(200).send({
+			success: true,
+			data: albums,
+		});
+	} catch (error) {
+		console.error("Error fetching artist albums:", error);
+		return reply.status(500).send({
+			success: false,
+			error: "Failed to fetch artist albums",
 		});
 	}
 };

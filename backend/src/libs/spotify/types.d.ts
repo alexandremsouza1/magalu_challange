@@ -102,12 +102,35 @@ export interface SpotifyArtist {
 	uri: string;
 }
 
-export interface SpotifyTopArtistsResponse {
-	items: SpotifyArtist[];
-	total: number;
-	limit: number;
-	offset: number;
+export interface SimplifiedAlbum {
+	album_type: "album" | "single" | "compilation";
+	total_tracks: number;
+	available_markets: string[];
+	external_urls: ExternalUrls;
 	href: string;
-	next: string | null;
-	previous: string | null;
+	id: string;
+	images: SpotifyImage[];
+	name: string;
+	release_date: string;
+	release_date_precision: "day" | "month" | "year";
+	type: "album";
+	uri: string;
+	artists: SimplifiedArtist[];
+	album_group: "album" | "single" | "compilation" | "appears_on";
 }
+
+interface SpotifyPaginatedResponse<T> {
+	href: string;
+	limit: number;
+	next: string | null;
+	offset: number;
+	previous: string | null;
+	total: number;
+	items: T[];
+}
+
+export interface SpotifyArtistAlbumsResponse
+	extends SpotifyPaginatedResponse<SimplifiedAlbum> {}
+
+export interface SpotifyTopArtistsResponse
+	extends SpotifyPaginatedResponse<SpotifyArtist> {}
