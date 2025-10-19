@@ -31,8 +31,12 @@ export const startServer = async (): Promise<void> => {
 			}
 		});
 	} catch (error) {
-		// @ts-expect-error - Fastify log types issue
-		fastify.log.error("Failed to start server:", error);
+		fastify.log.error({
+			message: "Failed to start server",
+			errorName: error instanceof Error ? error.name : "UnknownError",
+			errorMessage: error instanceof Error ? error.message : String(error),
+			stack: error instanceof Error ? error.stack : undefined,
+		});
 		process.exit(1);
 	}
 };

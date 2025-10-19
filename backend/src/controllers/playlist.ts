@@ -3,8 +3,8 @@ import type { FastifyReply } from "fastify";
 import {
 	createSpotifyUserPlaylists,
 	getSpotifyUserPlaylists,
-} from "../libs/spotify/tokens";
-import type { CreatePlaylistBody } from "../libs/spotify/types";
+} from "../libs/spotify/tokens.js";
+import type { CreatePlaylistBody } from "../libs/spotify/types.js";
 import type { AuthenticatedRequest } from "../types";
 
 export const getUserPlaylists = async (

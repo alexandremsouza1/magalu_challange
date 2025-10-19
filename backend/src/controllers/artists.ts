@@ -2,7 +2,7 @@ import type { FastifyReply } from "fastify";
 import {
 	getSpotifyArtistAlbums,
 	getSpotifyTopArtists,
-} from "../libs/spotify/tokens";
+} from "../libs/spotify/tokens.js";
 import type { AuthenticatedRequest } from "../types";
 
 export const getTopArtists = async (

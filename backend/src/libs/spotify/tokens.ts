@@ -3,7 +3,7 @@ import {
 	SPOTIFY_API_URL,
 	SPOTIFY_PROFILE_URL,
 	SPOTIFY_TOKEN_URL,
-} from "./envs";
+} from "./envs.js";
 import type {
 	CreatePlaylistBody,
 	SpotifyArtistAlbumsResponse,
@@ -13,7 +13,7 @@ import type {
 	SpotifyTokenResponse,
 	SpotifyTopArtistsResponse,
 	SpotifyUserPlaylistsResponse,
-} from "./types";
+} from "./types.js";
 
 export async function getSpotifyTokens({
 	code,
