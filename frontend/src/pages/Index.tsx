@@ -1,11 +1,22 @@
 import { Box, Button, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { CALLBACK_URL } from "../config/env";
 
 const Index = () => {
+	const navigate = useNavigate();
+
 	const handleSpotifyLogin = () => {
 		window.location.href = CALLBACK_URL;
 	};
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			navigate("/");
+		}
+	}, [navigate]);
 
 	return (
 		<Box
