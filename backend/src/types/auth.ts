@@ -73,10 +73,9 @@ export type MeController = (
 
 // Interface pour les requêtes authentifiées
 export interface AuthenticatedRequest extends FastifyRequest {
-	user?: {
-		userId: number;
-		email: string;
-		name: string;
+	auth?: {
+		access_token: string;
+		expires_in: number;
 	};
 }
 

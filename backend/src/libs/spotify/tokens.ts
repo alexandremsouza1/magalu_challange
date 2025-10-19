@@ -2,7 +2,6 @@ import querystring from "node:querystring";
 import { SPOTIFY_PROFILE_URL, SPOTIFY_TOKEN_URL } from "./envs";
 import type {
 	SpotifyProfile,
-	SpotifyRawProfile,
 	SpotifyRefreshTokenParams,
 	SpotifyTokenParams,
 	SpotifyTokenResponse,
@@ -29,8 +28,8 @@ export async function getSpotifyTokens({
 		method: "POST",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
-			"Authorization": `Basic ${Buffer.from(
-				`${clientId}:${clientSecret}`
+			Authorization: `Basic ${Buffer.from(
+				`${clientId}:${clientSecret}`,
 			).toString("base64")}`,
 		},
 		body,
@@ -42,7 +41,7 @@ export async function getSpotifyTokens({
 		throw new Error(
 			`Failed to get access token from Spotify: ${res.status} - ${
 				errorData.error_description || errorData.error || "Unknown error"
-			}`
+			}`,
 		);
 	}
 
@@ -87,5 +86,5 @@ export async function getSpotifyProfile(
 		throw new Error("Failed to fetch user profile");
 	}
 
-	return await res.json() as Promise<SpotifyProfile>;
+	return (await res.json()) as Promise<SpotifyProfile>;
 }

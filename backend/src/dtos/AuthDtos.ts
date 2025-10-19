@@ -138,7 +138,6 @@ export const RefreshSpotifyTokenSchema = {
 	},
 };
 
-
 /**
  * Schema for getting user profile
  * GET /user/profile

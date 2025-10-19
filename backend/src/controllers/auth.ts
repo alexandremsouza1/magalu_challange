@@ -1,13 +1,17 @@
-import { fastify, type FastifyReply, type FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { getSpotifyAuthUrl } from "../libs/spotify/auth.js";
 import {
 	getSpotifyProfile,
 	getSpotifyTokens,
 	refreshSpotifyToken,
 } from "../libs/spotify/tokens.js";
-import type { RefreshTokenBody, SpotifyCallbackQuery } from "../types";
+import type {
+	AuthenticatedRequest,
+	RefreshTokenBody,
+	SpotifyCallbackQuery,
+} from "../types";
 import { getEnvVariable } from "../utils/autoLoad.js";
-import { createToken, verifyToken } from "../utils/jwt.js";
+import { createToken } from "../utils/jwt.js";
 
 // Variáveis de ambiente
 const SPOTIFY_CLIENT_ID = getEnvVariable("SPOTIFY_CLIENT_ID");
@@ -75,10 +79,8 @@ export const authSpotifyCallback = async (
 			redirectUri: SPOTIFY_REDIRECT_URI,
 		});
 
-    const jwt = createToken(tokens);
-		return reply.redirect(
-			`${FRONTEND_URL}/authCallback?token=${jwt}`,
-		);
+		const jwt = createToken(tokens);
+		return reply.redirect(`${FRONTEND_URL}/authCallback?token=${jwt}`);
 	} catch (error) {
 		console.error("Error in Spotify callback:", error);
 		return reply.status(500).send({
@@ -88,36 +90,19 @@ export const authSpotifyCallback = async (
 	}
 };
 
-
 export const getUserProfile = async (
-	request: FastifyRequest,
+	request: AuthenticatedRequest,
 	reply: FastifyReply,
 ) => {
 	try {
-		const authHeader = request.headers.authorization;
-
-		if (!authHeader) {
+		if (!request.auth) {
 			return reply.status(401).send({
 				success: false,
-				error: "Authorization header not provided",
+				error: "Invalid authentication data",
 			});
 		}
 
-		const accessToken = authHeader.replace("Bearer ", "");
-
-		const decodedToken = verifyToken(accessToken);
-
-		if (
-			typeof decodedToken !== "object" ||
-			!decodedToken.access_token
-		) {
-			return reply.status(401).send({
-				success: false,
-				error: "Invalid access token",
-			});
-		}
-
-		const profile = await getSpotifyProfile(decodedToken.access_token);
+		const profile = await getSpotifyProfile(request.auth.access_token);
 		return reply.status(200).send({
 			success: true,
 			data: profile,

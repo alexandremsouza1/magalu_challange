@@ -20,9 +20,8 @@ export const authenticateToken = async (
 
 		if (
 			typeof decoded !== "object" ||
-			!("userId" in decoded) ||
-			!("email" in decoded) ||
-			!("name" in decoded)
+			!("access_token" in decoded) ||
+			!("expires_in" in decoded)
 		) {
 			reply.status(401).send({
 				error: "Token inválido",
@@ -30,10 +29,9 @@ export const authenticateToken = async (
 			return;
 		}
 
-		request.user = {
-			userId: Number(decoded.userId),
-			email: String(decoded.email),
-			name: String(decoded.name),
+		request.auth = {
+			access_token: decoded.access_token,
+			expires_in: decoded.expires_in,
 		};
 	} catch (error) {
 		const err = error as Error & { name?: string };
