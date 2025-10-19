@@ -16,9 +16,5 @@ services:
       context: ./backend
     ports:
       - '4000:4000'
-    environment:
-      - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
-      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
-      - SPOTIFY_REDIRECT_URI=${SPOTIFY_REDIRECT_URI}
-      - JWT_SECRET=${JWT_SECRET}
-      - PORT=4000
+    env_file:
+      - ./backend/.env 
