@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 import { JWT_CONFIG } from "../config/jwt.js";
-import type { RefreshTokenPayload, TokenPayload } from "../types/index.js";
+import type { RefreshTokenPayload } from "../types/index.js";
 
-export const createToken = (payload: TokenPayload): string => {
+export const createToken = (payload: unknown): string => {
 	// @ts-expect-error - JWT types issue
 	return jwt.sign(payload, JWT_CONFIG.secret, {
 		expiresIn: JWT_CONFIG.expiresIn,

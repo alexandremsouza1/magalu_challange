@@ -14,22 +14,36 @@ export async function getSpotifyTokens({
 	clientSecret,
 	redirectUri,
 }: SpotifyTokenParams): Promise<SpotifyTokenResponse> {
-	const body = querystring.stringify({
+	// Input validation
+	if (!code || !clientId || !clientSecret || !redirectUri) {
+		throw new Error("Missing required parameters for Spotify token exchange");
+	}
+
+	const body = new URLSearchParams({
 		grant_type: "authorization_code",
 		code,
 		redirect_uri: redirectUri,
-		client_id: clientId,
-		client_secret: clientSecret,
-	});
+	}).toString();
 
 	const res = await fetch(SPOTIFY_TOKEN_URL, {
 		method: "POST",
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded",
+			"Authorization": `Basic ${Buffer.from(
+				`${clientId}:${clientSecret}`
+			).toString("base64")}`,
+		},
 		body,
 	});
 
 	if (!res.ok) {
-		throw new Error("Failed to get access token from Spotify");
+		const errorData = await res.json().catch(() => ({}));
+		console.error("Spotify token error:", errorData);
+		throw new Error(
+			`Failed to get access token from Spotify: ${res.status} - ${
+				errorData.error_description || errorData.error || "Unknown error"
+			}`
+		);
 	}
 
 	return res.json() as Promise<SpotifyTokenResponse>;

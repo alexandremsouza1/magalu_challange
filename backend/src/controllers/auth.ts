@@ -1,4 +1,4 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
+import { fastify, type FastifyReply, type FastifyRequest } from "fastify";
 import { getSpotifyAuthUrl } from "../libs/spotify/auth.js";
 import {
 	getSpotifyProfile,
@@ -7,13 +7,14 @@ import {
 } from "../libs/spotify/tokens.js";
 import type { RefreshTokenBody, SpotifyCallbackQuery } from "../types";
 import { getEnvVariable } from "../utils/autoLoad.js";
+import { createToken } from "../utils/jwt.js";
 
 // Variáveis de ambiente
 const SPOTIFY_CLIENT_ID = getEnvVariable("SPOTIFY_CLIENT_ID");
 const SPOTIFY_CLIENT_SECRET = getEnvVariable("SPOTIFY_CLIENT_SECRET");
 const SPOTIFY_REDIRECT_URI = getEnvVariable("SPOTIFY_REDIRECT_URI");
+const FRONTEND_URL = getEnvVariable("FRONTEND_URL");
 
-// Escopos necessários para a aplicação
 const SPOTIFY_SCOPES = [
 	"user-read-email",
 	"user-read-private",
@@ -33,13 +34,7 @@ export const authSpotify = async (
 			scope: SPOTIFY_SCOPES,
 			showDialog: false,
 		});
-
-		return reply.status(200).send({
-			success: true,
-			data: {
-				url: authUrl,
-			},
-		});
+		return reply.redirect(authUrl);
 	} catch (error) {
 		console.error("Error generating Spotify auth URL:", error);
 		return reply.status(500).send({
@@ -80,23 +75,10 @@ export const authSpotifyCallback = async (
 			redirectUri: SPOTIFY_REDIRECT_URI,
 		});
 
-		// Busca informações do perfil do usuário
-		const profile = await getSpotifyProfile(tokens.access_token);
-
-		// Aqui você pode salvar os tokens e perfil no banco de dados
-		// Exemplo: await saveUserTokens(profile.id, tokens);
-
-		return reply.status(200).send({
-			success: true,
-			data: {
-				profile,
-				tokens: {
-					accessToken: tokens.access_token,
-					refreshToken: tokens.refresh_token,
-					expiresIn: tokens.expires_in,
-				},
-			},
-		});
+    const jwt = createToken(tokens);
+		return reply.redirect(
+			`${FRONTEND_URL}/authCallback?token=${jwt}`,
+		);
 	} catch (error) {
 		console.error("Error in Spotify callback:", error);
 		return reply.status(500).send({
