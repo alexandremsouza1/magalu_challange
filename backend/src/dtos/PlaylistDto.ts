@@ -145,3 +145,88 @@ export const GetUserPlaylistsSchema = {
 		},
 	},
 };
+
+export const PostPlaylistSchema = {
+  headers: {
+    type: "object",
+    required: ["authorization"],
+    properties: {
+      authorization: { type: "string", description: "Bearer token" },
+    },
+  },
+
+  body: {
+    type: "object",
+    required: ["name"],
+    properties: {
+      name: { type: "string", description: "Nome da playlist" },
+    },
+  },
+
+  response: {
+    200: {
+      type: "object",
+      // Tornamos todas as propriedades opcionais, para aceitar qualquer resposta
+      properties: {
+        collaborative: { type: ["boolean","null"] },
+        description: { type: ["string","null"] },
+        external_urls: {
+          type: "object",
+          properties: {
+            spotify: { type: "string" },
+          },
+        },
+        followers: {
+          type: "object",
+          properties: {
+            href: { type: ["string","null"] },
+            total: { type: "integer" },
+          },
+        },
+        href: { type: "string" },
+        id: { type: "string" },
+        images: {
+          type: "array",
+          items: { type: "object" },
+        },
+        name: { type: "string" },
+        owner: {
+          type: "object",
+          properties: {
+            href: { type: "string" },
+            id: { type: "string" },
+            type: { type: "string" },
+            uri: { type: "string" },
+            display_name: { type: ["string","null"] },
+            external_urls: {
+              type: "object",
+              properties: { spotify: { type: "string" } },
+            },
+          },
+        },
+        public: { type: ["boolean","null"] },
+        snapshot_id: { type: "string" },
+        tracks: { type: "object" },
+        type: { type: "string" },
+        uri: { type: "string" },
+      },
+    },
+    401: {
+      type: "object",
+      required: ["success","error"],
+      properties: {
+        success: { type: "boolean" },
+        error: { type: "string" },
+      },
+    },
+    500: {
+      type: "object",
+      required: ["success","error"],
+      properties: {
+        success: { type: "boolean" },
+        error: { type: "string" },
+      },
+    },
+  },
+};
+

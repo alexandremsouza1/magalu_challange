@@ -154,6 +154,12 @@ export interface SpotifyPlaylist {
 	uri: string;
 }
 
+export interface CreatePlaylistBody {
+  name: string;
+  description?: string;
+  public?: boolean;
+}
+
 interface SpotifyPaginatedResponse<T> {
 	href: string;
 	limit: number;

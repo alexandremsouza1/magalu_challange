@@ -5,6 +5,7 @@ import {
 	SPOTIFY_TOKEN_URL,
 } from "./envs";
 import type {
+  CreatePlaylistBody,
 	SpotifyArtistAlbumsResponse,
 	SpotifyProfile,
 	SpotifyRefreshTokenParams,
@@ -139,6 +140,28 @@ export async function getSpotifyUserPlaylists(
   });
   if (!res.ok) {
     throw new Error("Failed to fetch user playlists");
+  }
+  return (await res.json()) as Promise<SpotifyUserPlaylistsResponse>;
+}
+
+export async function createSpotifyUserPlaylists(
+  accessToken: string,
+  body: CreatePlaylistBody
+): Promise<SpotifyUserPlaylistsResponse> {
+  const profile =  await getSpotifyProfile(accessToken);
+  const url = `${SPOTIFY_API_URL}/users/${profile.id}/playlists`;
+  console.log("Creating playlist with body:", url);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  console.log("Create playlist response status:", res);
+  if (!res.ok) {
+    throw new Error("Failed to create user playlist");
   }
   return (await res.json()) as Promise<SpotifyUserPlaylistsResponse>;
 }
