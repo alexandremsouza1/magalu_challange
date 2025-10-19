@@ -1,10 +1,12 @@
 import querystring from "node:querystring";
 import { SPOTIFY_PROFILE_URL, SPOTIFY_TOKEN_URL } from "./envs";
 import type {
+	SpotifyArtists,
 	SpotifyProfile,
 	SpotifyRefreshTokenParams,
 	SpotifyTokenParams,
 	SpotifyTokenResponse,
+	SpotifyTopArtistsResponse,
 } from "./types";
 
 export async function getSpotifyTokens({
@@ -87,4 +89,20 @@ export async function getSpotifyProfile(
 	}
 
 	return (await res.json()) as Promise<SpotifyProfile>;
+}
+
+export async function getSpotifyTopArtists(
+	accessToken: string,
+): Promise<SpotifyArtists> {
+	const url = `${SPOTIFY_PROFILE_URL}/top/artists?offset=0&limit=20`;
+	const res = await fetch(url, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
+	if (!res.ok) {
+		throw new Error("Failed to fetch top artists");
+	}
+
+	return (await res.json()) as Promise<SpotifyTopArtistsResponse>;
 }

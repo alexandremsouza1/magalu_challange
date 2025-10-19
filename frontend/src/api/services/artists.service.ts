@@ -15,7 +15,7 @@ export const artistsService = {
 				"&offset=" +
 				data.offset,
 		);
-		return response.data;
+		return response.data.data;
 	},
 
 	getAlbumsArtist: async (id: string): Promise<SpotifyArtistAlbumsResponse> => {
