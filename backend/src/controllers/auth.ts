@@ -24,9 +24,9 @@ const SPOTIFY_SCOPES = [
 	"user-read-private",
 	"user-top-read",
 	"user-read-recently-played",
-  "playlist-read-private",
-  "playlist-modify-public",
-  "playlist-modify-private"
+	"playlist-read-private",
+	"playlist-modify-public",
+	"playlist-modify-private",
 ];
 
 export const authSpotify = async (

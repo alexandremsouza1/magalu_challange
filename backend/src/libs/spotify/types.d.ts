@@ -155,9 +155,9 @@ export interface SpotifyPlaylist {
 }
 
 export interface CreatePlaylistBody {
-  name: string;
-  description?: string;
-  public?: boolean;
+	name: string;
+	description?: string;
+	public?: boolean;
 }
 
 interface SpotifyPaginatedResponse<T> {
@@ -174,7 +174,7 @@ export interface SpotifyArtistAlbumsResponse
 	extends SpotifyPaginatedResponse<SimplifiedAlbum> {}
 
 export interface SpotifyTopArtistsResponse
-  extends SpotifyPaginatedResponse<SpotifyArtist> { }
-  
+	extends SpotifyPaginatedResponse<SpotifyArtist> {}
+
 export interface SpotifyUserPlaylistsResponse
-  extends SpotifyPaginatedResponse<SpotifyPlaylist> {}
+	extends SpotifyPaginatedResponse<SpotifyPlaylist> {}
